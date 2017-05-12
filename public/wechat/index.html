@@ -13,3 +13,14 @@
 </h3>
 </body>
 </html>
+
+
+<script language="javascript" type="text/javascript">
+    var token = localStorage.getItem("token");
+    if(token == null){ 
+	alert("未登录");
+	window.location.href="http://wxauth.garylv.com/api/v1/wechat_login?url=http%3a%2f%2fwxauth.garylv.com%2fwechat"; 
+    } else {
+	alert('token:' + token);
+    }  
+</script>
