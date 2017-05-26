@@ -27,5 +27,6 @@ Route::group([
 ], function() {
 //	公共
     Route::get('js_sdk', 'CommonController@jsSdk');
+    Route::get('qrcode', 'CommonController@qrCode');
 
 });
