@@ -43,6 +43,9 @@ class WechatMsgController extends Controller
             $openid = $message->FromUserName;
             switch ($message->MsgType) {
                 case 'event':
+                    if ($message->Event == 'SCAN') {
+                        $this->dealScanEvent($message);
+                    }
                     return 'event';
                     break;
                 case 'text':
@@ -84,6 +87,19 @@ class WechatMsgController extends Controller
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode($tmpArr);
         return sha1($tmpStr) == $signature;
+    }
+
+    public function dealScanEvent($message) {
+        \Log::info($message);
+        $app = new Application($this->config);
+        $qrcode = $app->qrcode;
+
+        $ticket = $message->Ticket;
+        $url = $qrcode->url($ticket);
+        $content = file_get_contents($url); // 得到二进制图片内容
+
+        \Log::info('---- 二维码内容 ----');
+        \Log::info($content);
     }
 
 }
