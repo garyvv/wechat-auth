@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\WesUser;
-use Illuminate\Http\Request;
 use EasyWeChat\Foundation\Application;
 
 class WechatMsgController extends Controller

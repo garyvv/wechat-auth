@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\WeChat;
 
 use EasyWeChat\Foundation\Application;
-use App\WesUser;
+use App\Model\WesUser;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Input;
 
 
@@ -51,15 +52,24 @@ class WeChatController
     }
 
     public function login() {
-        $url = Input::get('url', env('HTTP_WEBSITE', 'http://zuzukeji.cn/wechat/dist/?#/shop'));
+        $url = Input::get('url', env('HTTP_WEBSITE', 'http://wechat-auth.local.com/wechat'));
         $userInfo = session('wechat_user');
-        $userId	  = session('user_id');
         $openid = $userInfo['id'];
         $token = md5($openid . 'wxauth' . time());
         session(['token' => $token]);
 
-//        这里采用的是同域前端工程，使用localStorage，如果是不同子域名，可以在这里setCookie，前端从cookie拿token。必须是同一主域名，因为setCookie无法跨域
-        return view('wechat.login', compact('userId', 'url', 'token'));
+        $cookie = Cookie::make('token', $token, $minutes = 60 * 24, $path = null, $domain = null, $secure = false, $httpOnly = false);
+        return redirect($url)->withCookie($cookie);
+    }
+
+    public function testLogin() {
+        $url = Input::get('url', env('HTTP_WEBSITE', 'http://wechat-auth.local.com/wechat'));
+        $token = md5('test' . 'wxauth' . time());
+        session(['token' => $token]);
+        session(['user_id' => 1]);
+
+        $cookie = Cookie::make('token', $token, $minutes = 60 * 24, $path = null, $domain = null, $secure = false, $httpOnly = false);
+        return redirect($url)->withCookie($cookie);
     }
 
 }

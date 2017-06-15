@@ -21,11 +21,14 @@ Route::get('/user', function (Request $request) {
 Route::match(['get','post'],'wechat_oauth_callback','WeChat\WeChatController@oauthCallback');
 Route::any('wechat_msg', ['uses' => 'WechatMsgController@index', 'as' => 'wechat_msg']);
 Route::get('v1/wechat_login', ['middleware' => 'wechat.auth', 'uses' => 'WeChat\WeChatController@login']);
+Route::get('v1/test_login', ['uses' => 'WeChat\WeChatController@testLogin']);
 
 Route::group([
 	'prefix' => 'v1',
 ], function() {
 //	公共
     Route::get('js_sdk', 'CommonController@jsSdk');
+
+    Route::get('users', 'UserController@detail');
 
 });
