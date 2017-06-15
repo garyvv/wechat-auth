@@ -16,6 +16,7 @@ class UserController extends ApiController
 
     public function detail()
     {
-        $this->respData(WesUser::find($this->user_id));
+        $userInfo = WesUser::find($this->user_id);
+        $this->respData($userInfo);
     }
 }
