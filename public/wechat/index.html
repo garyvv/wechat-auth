@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2 style="text-align: center">
-    用localStorage拿到token，去访问接口
+    用Cookie拿到token，去访问接口
 </h2>
 <h3 style="text-align: center">
     不同子域名则使用主域的cookie拿token，需要在登录接口修改
@@ -16,11 +16,72 @@
 
 
 <script language="javascript" type="text/javascript">
-    var token = localStorage.getItem("token");
-    if(token == null){ 
-	alert("未登录");
-	window.location.href="http://wxauth.garylv.com/api/v1/wechat_login?url=http%3a%2f%2fwxauth.garylv.com%2fwechat"; 
+    var domain = 'wxauth.garylv.com';
+    var token = getCookie("token");
+    if (token == '') {
+        alert("未登录");
+        window.location.href = "http://" + domain + "/api/v1/wechat_login?url=http%3a%2f%2f" + domain + "%2fwechat";
+//        window.location.href = "http://" + domain + "/api/v1/test_login?url=http%3a%2f%2f" + domain + "%2fwechat";
     } else {
-	alert('token:' + token);
-    }  
+        alert('token:' + token);
+        var url = 'http://' + domain + '/api/v1/users?token=' + token;
+        ajax(url);
+    }
+
+    function getCookie(c_name)
+    {
+        if (document.cookie.length>0)
+        {
+            c_start=document.cookie.indexOf(c_name + "=")
+            if (c_start!=-1)
+            {
+                c_start=c_start + c_name.length+1
+                c_end=document.cookie.indexOf(";",c_start)
+                if (c_end==-1) c_end=document.cookie.length
+                return unescape(document.cookie.substring(c_start,c_end))
+            }
+        }
+        return ""
+    }
+
+    function ajax(url) {
+
+        //先声明一个异步请求对象
+        var xmlHttpReg = null;
+        if (window.ActiveXObject) {//如果是IE
+
+            xmlHttpReg = new ActiveXObject("Microsoft.XMLHTTP");
+
+        } else if (window.XMLHttpRequest) {
+
+            xmlHttpReg = new XMLHttpRequest(); //实例化一个xmlHttpReg
+        }
+
+        //如果实例化成功,就调用open()方法,就开始准备向服务器发送请求
+        if (xmlHttpReg != null) {
+            xmlHttpReg.open("get", url, true);
+            xmlHttpReg.send(null);
+            xmlHttpReg.onreadystatechange = doResult; //设置回调函数
+
+        }
+
+        //回调函数
+        //一旦readyState的值改变,将会调用这个函数,readyState=4表示完成相应
+
+        //设定函数doResult()
+        function doResult() {
+
+            if (xmlHttpReg.readyState == 4) {//4代表执行完成
+
+
+                if (xmlHttpReg.status == 200) {//200代表执行成功
+                    //将xmlHttpReg.responseText的值赋给ID为resText的元素
+                    alert(xmlHttpReg.responseText);
+                }
+            }
+
+        }
+
+
+    }
 </script>
