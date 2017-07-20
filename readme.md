@@ -3,6 +3,8 @@
 #### laravel-5.3
 #### 前后端分离的微信登录，demo是同域的前端工程，token存Cookie
 
+#### 个人开发者，只能用测试公众号，访问demo链接，请先关注测试号
+<img src="http://wxauth.garylv.com/wechat/test-qrcode.jpg">
 
 #### How To Install
 - composer install
