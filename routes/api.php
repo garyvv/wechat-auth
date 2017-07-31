@@ -18,18 +18,30 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 
-Route::match(['get','post'],'wechat_oauth_callback','WeChat\WeChatController@oauthCallback');
-Route::any('wechat_msg', ['uses' => 'WechatMsgController@index', 'as' => 'wechat_msg']);
-Route::get('v1/wechat_login', ['middleware' => 'wechat.auth', 'uses' => 'WeChat\WeChatController@login']);
-Route::get('v1/test_login', ['uses' => 'WeChat\WeChatController@testLogin']);
-
+/**
+ * 需要登录权限的接口
+ */
+//    v1
 Route::group([
-	'prefix' => 'v1',
-], function() {
-//	公共
-    Route::get('js_sdk', 'CommonController@jsSdk');
-    Route::get('qrcode', 'CommonController@qrCode');
-
+    'prefix' => 'v1',
+], function () {
     Route::get('users', 'UserController@detail');
+});
+
+
+/**
+ * 不需要登录权限的接口, 微信相关
+ */
+Route::group([
+    'prefix' => 'wechat/v1',
+    'namespace' => 'WeChat'
+], function () {
+    Route::get('oauth_callback/{config}', 'LoginController@oauthCallback');
+
+    Route::post('message', ['uses' => 'SettingController@message', 'as' => 'message']);
+    Route::get('message', ['uses' => 'SettingController@check', 'as' => 'message']);
+
+    Route::get('login', ['uses' => 'LoginController@login']);
+    Route::get('test_login', ['uses' => 'LoginController@testLogin']);
 
 });

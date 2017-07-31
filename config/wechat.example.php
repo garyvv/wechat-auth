@@ -33,7 +33,7 @@ return [
      */
     'oauth' => [
         'scopes'   => ['snsapi_userinfo'],
-        'callback' => 'api/wechat_oauth_callback',
+        'callback' => 'api/wechat/v1/oauth_callback/wechat',
     ],
     /**
      * 微信支付
@@ -57,4 +57,50 @@ return [
         'timeout' => 3.0, // 超时时间（秒）
         //'verify' => false, // 关掉 SSL 认证（强烈不建议！！！）
     ],
+
+    'cookie_domain' => 'yourdomain.com',
+
+
+//    默认回复
+    'default_reply' => 'Hi~我是自动回复',
+
+//    关键词回复
+    'auto_reply' => [
+
+//        精准匹配
+        [
+            'request' => ['精准匹配', '自动回复'],
+            'response' => '这个是精准匹配的关键词',
+            'rule' => 'match',
+        ],
+        [
+            'request' => ['你好'],
+            'response' => 'Hello .',
+            'rule' => 'match',
+        ],
+
+//        模糊匹配
+        [
+            'request' => ['模糊', '随便'],
+            'response' => '这个是模糊匹配的关键词' . PHP_EOL . PHP_EOL .
+                '<a href="https://github.com/garyvv/wechat-auth">' .
+                '>> 点击此处访问GitHub项目地址' .
+                '</a>',
+            'rule' => 'fuzzy',
+        ],
+        [
+            'request' => ['git'],
+            'response' => '模糊匹配到GitHub' . PHP_EOL . PHP_EOL .
+                '<a href="https://github.com/garyvv/wechat-auth">' .
+                '>> 点击此处访问GitHub项目地址' .
+                '</a>',
+            'rule' => 'fuzzy',
+        ],
+    ],
+
+//    关注回复
+    'subscribe_reply' => '嘿~你好，欢迎关注，前后端分离的微信登录和配置化的自动回复实现方案。' .
+        '<a href="https://github.com/garyvv/wechat-auth">' .
+        '点击此处访问GitHub项目地址' .
+        '</a>',
 ];
