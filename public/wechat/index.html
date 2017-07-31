@@ -25,13 +25,16 @@
 <h3 style="text-align: center">
     不同子域名则使用主域的cookie拿token，需要在登录接口修改
 </h3>
+<br>
+<hr>
+<br>
 </body>
 </html>
 
 
 <script language="javascript" type="text/javascript">
-    var domain = 'wxauth.garylv.com';
-//    var domain = 'wxauth.local.com';
+//    var domain = 'wxauth.garylv.com';
+    var domain = 'wxauth.local.com';
     var token = getCookie("token");
     if (token == '') {
         alert("未登录");
@@ -43,8 +46,8 @@
     }
 
     function login() {
-        window.location.href = "http://" + domain + "/api/wechat/v1/login?url=http://" + domain + "/wechat";
-//        window.location.href = "http://" + domain + "/api/wechat/v1/test_login?url=http://" + domain + "/wechat";
+//        window.location.href = "http://" + domain + "/api/wechat/v1/login?url=http://" + domain + "/wechat";
+        window.location.href = "http://" + domain + "/api/wechat/v1/test_login?url=http://" + domain + "/wechat";
     }
 
     function getCookie(c_name)
@@ -103,7 +106,15 @@
                         alert('Error, ' + result.msg)
                     }
                 } else {
-                    alert('欢迎访问, ' + result.data.nickname)
+//                    alert('欢迎访问, ' + result.data.nickname);
+                    var div = document.createElement("div");
+                    div.innerHTML =
+                        "<div style='text-align: center'>" +
+                        "<img style='height: 170px;width: 170px;border-radius: 50%;' src='" + result.data.avatar + "' />" +
+                        "<h3>欢迎访问, " + result.data.nickname + "</h3>" +
+                        "<h3>您的IP , " + result.data.ip + "</h3>" +
+                        "</div>";
+                    document.body.appendChild(div);
                 }
             }
 
