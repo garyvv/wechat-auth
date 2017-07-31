@@ -25,6 +25,9 @@
 <h3 style="text-align: center">
     不同子域名则使用主域的cookie拿token，需要在登录接口修改
 </h3>
+<br>
+<hr>
+<br>
 </body>
 </html>
 
@@ -103,7 +106,15 @@
                         alert('Error, ' + result.msg)
                     }
                 } else {
-                    alert('欢迎访问, ' + result.data.nickname)
+//                    alert('欢迎访问, ' + result.data.nickname);
+                    var div = document.createElement("div");
+                    div.innerHTML =
+                        "<div style='text-align: center'>" +
+                        "<img style='height: 170px;width: 170px;border-radius: 50%;' src='" + result.data.avatar + "' />" +
+                        "<h3>欢迎访问, " + result.data.nickname + "</h3>" +
+                        "<h3>您的IP , " + result.data.ip + "</h3>" +
+                        "</div>";
+                    document.body.appendChild(div);
                 }
             }
 
