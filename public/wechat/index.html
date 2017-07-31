@@ -43,8 +43,8 @@
     }
 
     function login() {
-        window.location.href = "http://" + domain + "/api/v1/wechat_login?url=http%3a%2f%2f" + domain + "%2fwechat";
-//        window.location.href = "http://" + domain + "/api/v1/test_login?url=http%3a%2f%2f" + domain + "%2fwechat";
+        window.location.href = "http://" + domain + "/api/wechat/v1/login?url=http://" + domain + "/wechat";
+//        window.location.href = "http://" + domain + "/api/wechat/v1/test_login?url=http://" + domain + "/wechat";
     }
 
     function getCookie(c_name)
@@ -92,17 +92,18 @@
 
             if (xmlHttpReg.readyState == 4) {//4代表执行完成
 
-
-                if (xmlHttpReg.status == 200) {//200代表执行成功
-                    //将xmlHttpReg.responseText的值赋给ID为resText的元素
-                    var result = JSON.parse(xmlHttpReg.responseText);
-                    var success = result.success;
-                    if (success == false && result.code == 2002) {
+                //将xmlHttpReg.responseText的值赋给ID为resText的元素
+                var result = JSON.parse(xmlHttpReg.responseText);
+                var success = result.success;
+                if (success == false) {
+                    if (result.code == 2002) {
 //                        token失效
                         login();
                     } else {
-                        alert('欢迎访问, ' + result.data.nickname)
+                        alert('Error, ' + result.msg)
                     }
+                } else {
+                    alert('欢迎访问, ' + result.data.nickname)
                 }
             }
 

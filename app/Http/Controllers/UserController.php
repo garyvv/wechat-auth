@@ -9,14 +9,15 @@
 namespace App\Http\Controllers;
 
 
-use App\Model\WesUser;
+use App\Models\WesUser;
 
 class UserController extends ApiController
 {
 
     public function detail()
     {
-        $userInfo = WesUser::find($this->user_id);
-        $this->respData($userInfo);
+        $userInfo = WesUser::find($this->userId);
+
+        return $this->respData($userInfo);
     }
 }
