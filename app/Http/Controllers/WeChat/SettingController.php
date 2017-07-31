@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\WeChat;
 
+use EasyWeChat\Foundation\Application;
 use Illuminate\Support\Facades\Input;
 
 /**
@@ -33,7 +34,8 @@ class SettingController extends BaseController
         }
 
 //        从项目实例中得到服务端应用实例。
-        $server = $this->app->server;
+        $app = new Application($this->config);
+        $server = $app->server;
 
         $server->setMessageHandler(function ($message) {
 

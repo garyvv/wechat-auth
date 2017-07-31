@@ -10,17 +10,14 @@ namespace App\Http\Controllers\WeChat;
 
 
 use App\Http\Controllers\Controller;
-use EasyWeChat\Foundation\Application;
 
 class BaseController extends Controller
 {
     protected $config;
-    protected $app;
 
     public function __construct()
     {
         $this->config = config('wechat');
-        $this->app = new Application($this->config);
     }
 
 
@@ -30,6 +27,5 @@ class BaseController extends Controller
         if (empty($this->config)) {
             return $this->respFail('配置文件错误');
         }
-        $this->app = new Application($this->config);
     }
 }
