@@ -11,6 +11,26 @@
 - cp .env.example .env , 配置你的数据库信息
 - cp config/wechat.example.php config/wechat.php , 配置你的微信信息
 
+#### 使用说明
+#### config/wechat.php
+- 微信配置文件
+- 自定义key说明：
+
+```
+    'default_reply' => '默认回复文本',
+    
+    'auto_reply' => [
+            [
+                'request' => ['用户输入的关键词', '关键词'],
+                'response' => '回复的文本',
+                'rule' => 'match',  // match：关键词必须精准匹配，fuzzy：关键词模糊匹配（尽量不要用单个字）
+            ],
+            ....
+        ],
+    
+    'subscribe_reply' => '关注回复的文本',
+```
+
 #### 存储访客信息表结构
 ```
   CREATE TABLE `wes_users` (
