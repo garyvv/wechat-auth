@@ -38,7 +38,7 @@ Route::group([
 ], function () {
     Route::get('oauth_callback/{config}', 'LoginController@oauthCallback');
 
-    Route::post('message', ['uses' => 'SettingController@index', 'as' => 'message']);
+    Route::post('message', ['uses' => 'SettingController@message', 'as' => 'message']);
     Route::get('message', ['uses' => 'SettingController@check', 'as' => 'message']);
 
     Route::get('login', ['uses' => 'LoginController@login']);
