@@ -40,20 +40,20 @@ class SettingController extends BaseController
 
             $server->push(function ($message) {
 
-                switch ($message->MsgType) {
+                switch ($message['MsgType']) {
                     case 'event':
 //                    扫码
-                        if ($message->Event == 'SCAN') {
+                        if ($message['Event'] == 'SCAN') {
                             return '扫码事件';
                         } //                    关注
-                        elseif ($message->Event == 'subscribe') {
+                        elseif ($message['Event'] == 'subscribe') {
                             return $this->config['subscribe_reply'];
                         } else {
                             return '';
                         }
                         break;
                     case 'text':
-                        $sendText = $this->dealTextMessage($message->Content);
+                        $sendText = $this->dealTextMessage($message['Content']);
                         return $sendText;
                         break;
                     case 'image':
