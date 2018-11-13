@@ -23,6 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    v1
 Route::group([
     'prefix' => 'v1',
+    'middleware' => ['web']
 ], function () {
     Route::get('users', 'UserController@detail');
 });
@@ -33,6 +34,7 @@ Route::group([
  */
 Route::group([
     'prefix' => 'wechat/v1',
+    'middleware' => ['web'],
     'namespace' => 'WeChat'
 ], function () {
     Route::get('oauth_callback/{config}', 'LoginController@oauthCallback');
