@@ -43,6 +43,11 @@ class Controller extends BaseController
     }
 
 
+    /**
+     * @param $rules
+     * @param $message
+     * @throws \Exception
+     */
     protected function requestValidate($rules, $message)
     {
         $validate = Validator::make(Input::all(), $rules, $message);
