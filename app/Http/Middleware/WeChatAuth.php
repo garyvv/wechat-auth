@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Factory;
 use Closure;
 
 class WeChatAuth
@@ -16,9 +16,6 @@ class WeChatAuth
     public function handle($request, Closure $next)
     {
 
-//        $app = new Application($this->config);
-//        $oauth = $app->oauth;
-
         if(!isset($request->url)) {
             return response(['msg' => '参数缺失', 'success' => false, 'code' => '2004', 'data' => []], 500);
         }
@@ -26,7 +23,7 @@ class WeChatAuth
         if (empty(session('wechat_user'))) {
             $url = '?url=' . urlencode($request->url);
             $this->config['oauth']['callback'] .= $url;
-            $app = new Application($this->config);
+            $app = Factory::officialAccount($this->config);
             $oauth = $app->oauth;
             return $oauth->redirect();
         }

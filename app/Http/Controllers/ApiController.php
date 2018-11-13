@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class ApiController extends Controller
@@ -17,16 +18,16 @@ class ApiController extends Controller
 
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            $this->accessToken = session('token');
-            $this->userId = session('user_id');
+        $this->middleware(function (Request $request, $next) {
+            $this->accessToken = $request->session()->get('token');
+            $this->userId = $request->session()->get('user_id');
 
             $token = Input::get('token', null);
             if($this->accessToken) {
                 if(empty($token) || $token != $this->accessToken) {
                     return $this->respFail('Token Error', self::API_CODE_TOKEN_ERROR);
                 }
-                if(intval(session('user_id')) <= 0)	{
+                if(intval($this->userId) <= 0)	{
                     return $this->respFail('User Logout', self::API_CODE_TOKEN_ERROR);
                 }
             } else {

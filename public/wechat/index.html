@@ -34,7 +34,7 @@
 
 <script language="javascript" type="text/javascript">
     var domain = 'wxauth.garylv.com';
-//    var domain = 'wxauth.local.com';
+   // var domain = 'wechat.auth.local.com';
     var token = getCookie("token");
     if (token == '') {
         alert("未登录");
@@ -47,7 +47,7 @@
 
     function login() {
         window.location.href = "http://" + domain + "/api/wechat/v1/login?url=http://" + domain + "/wechat";
-//        window.location.href = "http://" + domain + "/api/wechat/v1/test_login?url=http://" + domain + "/wechat";
+       // window.location.href = "http://" + domain + "/api/wechat/v1/test_login?url=http://" + domain + "/wechat";
     }
 
     function getCookie(c_name)

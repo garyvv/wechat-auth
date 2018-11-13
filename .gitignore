@@ -3,3 +3,4 @@ storage/*
 vendor/*
 config/wechat.php
 .idea/
+.DS_Store

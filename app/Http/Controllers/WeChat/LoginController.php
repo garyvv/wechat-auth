@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\WeChat;
 
 use App\Models\WesUser;
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Factory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Input;
 
@@ -20,7 +20,7 @@ class LoginController extends BaseController
     public function oauthCallback($config)
     {
         $this->initConfig($config);
-        $app = new Application($this->config);
+        $app = Factory::officialAccount($this->config);
         $oauth = $app->oauth;
 
         $user      = $oauth->user();
@@ -32,8 +32,7 @@ class LoginController extends BaseController
 
         $token = md5($userId . 'wxauth' . time());
 //        可以选择不用session  存 redis 或 memcache
-        session(['token' => $token]);
-        session(['user_id' => $userId]);
+        session(['token' => $token, 'user_id' => $userId]);
 
 //        setCookie  可根据需要， 比如前端用Vue，拼接参数到url返回给前端
         $cookie = Cookie::make('token', $token, $minutes = 60 * 24, $path = null, $domain = null, $secure = false, $httpOnly = false);
@@ -41,6 +40,10 @@ class LoginController extends BaseController
     }
 
 
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
     public function login()
     {
         $this->requestValidate([
@@ -55,7 +58,7 @@ class LoginController extends BaseController
         $url = '?url=' . urlencode(Input::get('url'));
         $this->config['oauth']['callback'] .= $url;
 
-        $app = new Application($this->config);
+        $app = Factory::officialAccount($this->config);
         $oauth = $app->oauth;
         return $oauth->redirect();
     }
@@ -88,8 +91,7 @@ class LoginController extends BaseController
     {
         $url = Input::get('url', env('HTTP_WEBSITE', 'http://wxauth.garylv.com/wechat'));
         $token = md5('test' . 'wxauth' . time());
-        session(['token' => $token]);
-        session(['user_id' => 1]);
+        session(['token' => $token, 'user_id' => '1']);
         $cookie = Cookie::make('token', $token, $minutes = 60 * 24, $path = null, $domain = null, $secure = false, $httpOnly = false);
         return redirect($url)->withCookie($cookie);
     }

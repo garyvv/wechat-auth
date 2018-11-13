@@ -12,10 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-})->middleware('auth:api');
+});
 
 
 /**
@@ -24,6 +23,7 @@ Route::get('/user', function (Request $request) {
 //    v1
 Route::group([
     'prefix' => 'v1',
+    'middleware' => ['web']
 ], function () {
     Route::get('users', 'UserController@detail');
 });
@@ -34,6 +34,7 @@ Route::group([
  */
 Route::group([
     'prefix' => 'wechat/v1',
+    'middleware' => ['web'],
     'namespace' => 'WeChat'
 ], function () {
     Route::get('oauth_callback/{config}', 'LoginController@oauthCallback');
