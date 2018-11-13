@@ -1,6 +1,10 @@
 # wechat-auth
+> 2018-11-13，升级到 laravel5.7 & easyWeChat 的4.0版本
+
+---
+
 #### 基于 <a href="https://github.com/overtrue/wechat">EasyWeChat</a>进行微信登录的封装
-#### laravel-5.3
+#### laravel-5.7
 #### 前后端分离的微信登录，demo是同域的前端工程，token存Cookie
 
 #### 个人开发者，只能用测试公众号，访问demo链接，请先关注测试号
