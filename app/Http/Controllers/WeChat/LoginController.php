@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\WeChat;
 
 use App\Models\WesUser;
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Factory;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Input;
 
@@ -20,7 +20,7 @@ class LoginController extends BaseController
     public function oauthCallback($config)
     {
         $this->initConfig($config);
-        $app = new Application($this->config);
+        $app = Factory::officialAccount($this->config);
         $oauth = $app->oauth;
 
         $user      = $oauth->user();
@@ -41,6 +41,10 @@ class LoginController extends BaseController
     }
 
 
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
     public function login()
     {
         $this->requestValidate([
@@ -55,7 +59,7 @@ class LoginController extends BaseController
         $url = '?url=' . urlencode(Input::get('url'));
         $this->config['oauth']['callback'] .= $url;
 
-        $app = new Application($this->config);
+        $app = Factory::officialAccount($this->config);
         $oauth = $app->oauth;
         return $oauth->redirect();
     }
